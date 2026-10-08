@@ -1,32 +1,50 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-  import { Button } from './src/components/Button';
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import { Button } from './src/components/Button';
+import { styles } from './src/styles/App.styles';
+import { currencies } from './src/constants/currencies'
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
 
-      <View>
-        <Text>Conversor de Moedas</Text>
-        <Text>Converta valores entre diferentes moedas</Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <View style={styles.content}>
+          <StatusBar style="light" />
 
-      <View>
-        <Text>De:</Text>
-        <Button></Button>
+          <View style={styles.header}>
+            <Text style={styles.title}>Conversor de Moedas</Text>
+            <Text style={styles.subTitle}>
+              Converta valores entre diferentes moedas
+            </Text>
+          </View>
 
-      </View>
+          <View style={styles.card}>
+            <Text style={styles.label}>De:</Text>
+            <View>
+              {currencies.map(currency => (
+                <Button
+                  key={currency.code}
+                  variant="primary"
+                  currency={currency}
+                >
+                  
+                </Button>
+              ))}
 
-    </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f8f9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
