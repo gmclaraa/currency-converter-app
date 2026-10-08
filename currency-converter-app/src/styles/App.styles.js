@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.background
     },
     scrollView:{
-        flexgrow:1,
+        flexGrow:1,
 
     },
     content:{
@@ -42,10 +42,12 @@ export const styles = StyleSheet.create({
         fontSize:14
     },
     currencyGrid:{
-        flexDirection:row,
+        flexDirection:'row',
         flexWrap:'wrap',
         marginHorizontal:-4,
-        marginBottom:16
+        marginBottom:12,
+        alignItems:'center',
+        justifyContent: 'center'
     }
 
 })

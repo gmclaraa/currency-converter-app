@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   View,
@@ -7,16 +8,18 @@ import {
   Platform,
 } from 'react-native';
 import { Button } from './src/components/Button';
+import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
-import { currencies } from './src/constants/currencies'
+import { currencies } from './src/constants/currencies';
 
 export default function App() {
+  const [amount, setAmount] = useState('');
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.content}>
           <StatusBar style="light" />
@@ -30,18 +33,17 @@ export default function App() {
 
           <View style={styles.card}>
             <Text style={styles.label}>De:</Text>
-            <View>
+            <View style={styles.currencyGrid}>
               {currencies.map(currency => (
                 <Button
                   key={currency.code}
                   variant="primary"
                   currency={currency}
-                >
-                  
-                </Button>
+                />
               ))}
-
             </View>
+
+            <Input label="Valor:" value={amount} onChangeText={setAmount} />
           </View>
         </View>
       </ScrollView>
