@@ -13,8 +13,8 @@ import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 
 export default function App() {
-  const [amount, setAmount] = useState('');
-
+  const [amount, setAmount] = useState('')
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}
