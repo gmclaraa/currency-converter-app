@@ -1,7 +1,7 @@
 import { View, TextInput, Text } from "react-native";
 import { styles } from "./styles";
 
-export function Input({ label, value, onChangeText }) {
+export function Input({  value, onChangeText, label }) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>

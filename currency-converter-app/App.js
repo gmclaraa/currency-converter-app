@@ -6,6 +6,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import { Button } from './src/components/Button';
 import { Input } from './src/components/Input';
@@ -13,8 +14,8 @@ import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 
 export default function App() {
-  const [amount, setAmount] = useState('')
-  
+  const [amount, setAmount] = useState('');
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -44,6 +45,11 @@ export default function App() {
             </View>
 
             <Input label="Valor:" value={amount} onChangeText={setAmount} />
+            <TouchableOpacity style={styles.swapButton}>
+              <Text style={styles.swapButtonText}>
+               ↑↓
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
