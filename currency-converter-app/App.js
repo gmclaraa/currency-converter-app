@@ -13,9 +13,15 @@ import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 import { ResultCard } from './src/components/ResultCard';
+import { exchangeRateApi } from './src/services/api';
 
 export default function App() {
   const [amount, setAmount] = useState('');
+
+  async function fetchExchangeRate() {
+    const data = await exchangeRateApi('BRL');
+    console.log(data);
+  }
 
   return (
     <KeyboardAvoidingView
@@ -63,7 +69,10 @@ export default function App() {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.convertButton}>
+          <TouchableOpacity
+            style={styles.convertButton}
+            onPress={fetchExchangeRate}
+          >
             <Text style={styles.swapButtonText}>Converter</Text>
           </TouchableOpacity>
 
