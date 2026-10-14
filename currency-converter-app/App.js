@@ -12,6 +12,7 @@ import { Button } from './src/components/Button';
 import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
+import { ResultCard } from './src/components/ResultCard';
 
 export default function App() {
   const [amount, setAmount] = useState('');
@@ -45,12 +46,28 @@ export default function App() {
             </View>
 
             <Input label="Valor:" value={amount} onChangeText={setAmount} />
+
             <TouchableOpacity style={styles.swapButton}>
-              <Text style={styles.swapButtonText}>
-               ↑↓
-              </Text>
+              <Text style={styles.swapButtonText}>↑↓</Text>
             </TouchableOpacity>
+
+            <Text style={styles.label}>Para:</Text>
+            <View style={styles.currencyGrid}>
+              {currencies.map(currency => (
+                <Button
+                  key={currency.code}
+                  variant="secondary"
+                  currency={currency}
+                />
+              ))}
+            </View>
           </View>
+
+          <TouchableOpacity style={styles.convertButton}>
+            <Text style={styles.swapButtonText}>Converter</Text>
+          </TouchableOpacity>
+
+          <ResultCard />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
