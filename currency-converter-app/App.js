@@ -17,12 +17,12 @@ import { exchangeRateApi } from './src/services/api';
 
 export default function App() {
   const [amount, setAmount] = useState('');
-  const [fromCurrency, setFromCurrency] = useState('');
-  const [toCurrency, setToCurrency] = useState('');
+  const [fromCurrency, setFromCurrency] = useState('USD');
+  const [toCurrency, setToCurrency] = useState('BRL');
 
   async function fetchExchangeRate() {
-    const data = await exchangeRateApi('BRL');
-    console.log(data);
+    const data = await exchangeRateApi(fromCurrency);
+    const rate = data.rates[toCurrency]
   }
 
   return (
