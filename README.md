@@ -81,8 +81,3 @@ Escaneie o QR code exibido no terminal com o Expo Go.
  
 💡 Celular e computador precisam estar na mesma rede Wi-Fi.
  
-## 📸 Preview
- 
-_Adicione aqui prints ou um GIF do app funcionando._
- 
-Claude terminou a resposta
