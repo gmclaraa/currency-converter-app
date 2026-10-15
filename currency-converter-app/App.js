@@ -26,6 +26,8 @@ export default function App() {
   const [exchangeRate, setExchangeRate] = useState(null);
 
   async function fetchExchangeRate() {
+    if (!amount) return
+
     const data = await exchangeRateApi(fromCurrency);
     const rate = data.rates[toCurrency];
 
@@ -92,10 +94,15 @@ export default function App() {
           </View>
 
           <TouchableOpacity
-            style={styles.convertButton}
+            style={[styles.convertButton, (!amount || loading && styles.convertButtonDisable)]}
             onPress={fetchExchangeRate}
+            disabled={!amount || loading}
           >
-            <Text style={styles.swapButtonText}>Converter</Text>
+            {loading ? (<ActivityIndicaor color='white' />) : (
+              <Text style={styles.swapButtonText}>Converter</Text>
+            )
+            }
+
           </TouchableOpacity>
 
           <ResultCard
