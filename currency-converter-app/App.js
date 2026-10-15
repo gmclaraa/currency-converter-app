@@ -13,7 +13,7 @@ import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 import { ResultCard } from './src/components/ResultCard';
-import { exchangeRateApi } from './src/services/api';
+import { exchangeRateApi, convertCurrency } from './src/services/api';
 
 export default function App() {
   const [amount, setAmount] = useState('');
