@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -8,23 +9,30 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+
 import { Button } from './src/components/Button';
 import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 import { ResultCard } from './src/components/ResultCard';
 import { exchangeRateApi } from './src/services/api';
-import { convertCurrency } from '../Utils/convertCurrency';
+import { convertCurrency } from './src/utils/convertCurrency';
 
 export default function App() {
   const [amount, setAmount] = useState('');
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('BRL');
+  const [result, setResult] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(null);
 
   async function fetchExchangeRate() {
     const data = await exchangeRateApi(fromCurrency);
-    const rate = data.rates[toCurrency]
-    convertCurrency(amount, rate)
+    const rate = data.rates[toCurrency];
+
+    setExchangeRate(rate);
+
+    const convertedAmount = convertCurrency(amount, rate);
+    setResult(convertedAmount);
   }
 
   return (
@@ -45,8 +53,9 @@ export default function App() {
 
           <View style={styles.card}>
             <Text style={styles.label}>De:</Text>
+
             <View style={styles.currencyGrid}>
-              {currencies.map(currency => (
+              {currencies.map((currency) => (
                 <Button
                   key={currency.code}
                   variant="primary"
@@ -57,15 +66,20 @@ export default function App() {
               ))}
             </View>
 
-            <Input label="Valor:" value={amount} onChangeText={setAmount} />
+            <Input
+              label="Valor:"
+              value={amount}
+              onChangeText={setAmount}
+            />
 
             <TouchableOpacity style={styles.swapButton}>
               <Text style={styles.swapButtonText}>↑↓</Text>
             </TouchableOpacity>
 
             <Text style={styles.label}>Para:</Text>
+
             <View style={styles.currencyGrid}>
-              {currencies.map(currency => (
+              {currencies.map((currency) => (
                 <Button
                   key={currency.code}
                   variant="secondary"
@@ -84,7 +98,13 @@ export default function App() {
             <Text style={styles.swapButtonText}>Converter</Text>
           </TouchableOpacity>
 
-          <ResultCard />
+          <ResultCard
+            exchangeRate={exchangeRate}
+            result={result}
+            fromCurrency={fromCurrency}
+            toCurrency={toCurrency}
+            currencies={currencies}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

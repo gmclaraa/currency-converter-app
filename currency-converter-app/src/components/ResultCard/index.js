@@ -1,9 +1,15 @@
+
 import { View, Text } from "react-native";
 
-export function ResultCard() {
+export function ResultCard({
+  exchangeRate,
+  result,
+  toCurrency,
+  currencies,
+}) {
   return (
     <View>
-      <Text>Resultado: </Text>
+      <Text>Resultado: {result}</Text>
     </View>
   );
 }
