@@ -27,14 +27,12 @@ export default function App() {
   const [exchangeRate, setExchangeRate] = useState(null);
 
   async function fetchExchangeRate() {
-    if (!amount) return;
-
-    setLoading(true);
-
     try {
+      setLoading(true);
+      if (!amount) return;
+
       const data = await exchangeRateApi(fromCurrency);
       const rate = data.rates[toCurrency];
-
       setExchangeRate(rate);
 
       const convertedAmount = convertCurrency(amount, rate);
