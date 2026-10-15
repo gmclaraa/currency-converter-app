@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -8,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
 import { Button } from './src/components/Button';
@@ -22,19 +22,35 @@ export default function App() {
   const [amount, setAmount] = useState('');
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('BRL');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(null);
 
   async function fetchExchangeRate() {
-    if (!amount) return
+    if (!amount) return;
 
-    const data = await exchangeRateApi(fromCurrency);
-    const rate = data.rates[toCurrency];
+    setLoading(true);
 
-    setExchangeRate(rate);
+    try {
+      const data = await exchangeRateApi(fromCurrency);
+      const rate = data.rates[toCurrency];
 
-    const convertedAmount = convertCurrency(amount, rate);
-    setResult(convertedAmount);
+      setExchangeRate(rate);
+
+      const convertedAmount = convertCurrency(amount, rate);
+      setResult(convertedAmount);
+    } catch (error) {
+      console.log('erro:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function swapCurrencies() {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    setResult('');
+    setExchangeRate(null);
   }
 
   return (
@@ -74,7 +90,7 @@ export default function App() {
               onChangeText={setAmount}
             />
 
-            <TouchableOpacity style={styles.swapButton}>
+            <TouchableOpacity style={styles.swapButton} onPress={swapCurrencies}>
               <Text style={styles.swapButtonText}>↑↓</Text>
             </TouchableOpacity>
 
@@ -94,15 +110,18 @@ export default function App() {
           </View>
 
           <TouchableOpacity
-            style={[styles.convertButton, (!amount || loading && styles.convertButtonDisable)]}
+            style={[
+              styles.convertButton,
+              (!amount || loading) && styles.convertButtonDisable,
+            ]}
             onPress={fetchExchangeRate}
             disabled={!amount || loading}
           >
-            {loading ? (<ActivityIndicaor color='white' />) : (
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
               <Text style={styles.swapButtonText}>Converter</Text>
-            )
-            }
-
+            )}
           </TouchableOpacity>
 
           <ResultCard
