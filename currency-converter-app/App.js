@@ -16,12 +16,9 @@ import { ResultCard } from './src/components/ResultCard';
 import { exchangeRateApi } from './src/services/api';
 
 export default function App() {
-  const [amount, setAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("BRL");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [exchangeRate, setExchangeRate] = useState(null);
+  const [amount, setAmount] = useState('');
+  const [fromCurrency, setFromCurrency] = useState('');
+  const [toCurrency, setToCurrency] = useState('');
 
   async function fetchExchangeRate() {
     const data = await exchangeRateApi('BRL');
@@ -52,6 +49,8 @@ export default function App() {
                   key={currency.code}
                   variant="primary"
                   currency={currency}
+                  isSelected={fromCurrency === currency.code}
+                  onPress={() => setFromCurrency(currency.code)}
                 />
               ))}
             </View>
@@ -69,6 +68,8 @@ export default function App() {
                   key={currency.code}
                   variant="secondary"
                   currency={currency}
+                  isSelected={toCurrency === currency.code}
+                  onPress={() => setToCurrency(currency.code)}
                 />
               ))}
             </View>
