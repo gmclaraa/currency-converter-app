@@ -13,7 +13,8 @@ import { Input } from './src/components/Input';
 import { styles } from './src/styles/App.styles';
 import { currencies } from './src/constants/currencies';
 import { ResultCard } from './src/components/ResultCard';
-import { exchangeRateApi, convertCurrency } from './src/services/api';
+import { exchangeRateApi } from './src/services/api';
+import { convertCurrency } from '../Utils/convertCurrency';
 
 export default function App() {
   const [amount, setAmount] = useState('');
@@ -23,6 +24,7 @@ export default function App() {
   async function fetchExchangeRate() {
     const data = await exchangeRateApi(fromCurrency);
     const rate = data.rates[toCurrency]
+    convertCurrency(amount, rate)
   }
 
   return (
